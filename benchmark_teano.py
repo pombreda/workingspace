@@ -9,6 +9,7 @@ import time
 
 ###Define a function
 ###============class RidgeRegression in pylearn-structured
+###http://deeplearning.net/software/theano/tutorial/using_gpu.html#what-can-be-accelerated-on-the-gpu
 print '''============class RidgeRegression in pylearn-structured========='''
 np_X_rows = 500
 np_X_cols = 50000
