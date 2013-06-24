@@ -87,24 +87,25 @@ print "GPU, time elapsed=" + \
 print '''======================Matrix element power======================'''
 print "Function = np_X ** coef"
 
-np_rows = 5000
-coef = np.float32(2.0)
+np_rows = 500
+coef = np.float32(3.0)
 n_it = 100
-
-X = T.tensor.fmatrix('X')
-c = T.tensor.fscalar('c')
-z = X ** c
-f = T.function([X, c], z)
 
 np_X = np.random.rand(np_rows, np_rows).astype(np.float32)
 print "    np_X=" + repr(np_X.shape)
 print "    coef=" + repr(coef)
 
-###Using GPU
+X = T.shared(np_X, name="X")
+c = T.tensor.fscalar('c')
+z = X ** c
+f = T.function([c], z)
+
+
+###Using GPU (share x)
 start_time = time.time()
 for i in range(n_it):
-    res_gpu = f(np_X, coef)
-print "GPU, time elapsed=" + \
+    res_gpu = f(coef)
+print "GPU (share x), time elapsed=" + \
         repr(time.time() - start_time) + \
         " seconds"
 
@@ -135,7 +136,7 @@ f = T.function([X, beta, y, l], z)
 np_X = np.random.rand(np_X_rows, np_X_cols).astype(np.float32)
 np_beta = np.random.rand(np_X_cols, np_beta_cols).astype(np.float32)
 np_y = np.random.rand(np_X_rows, np_beta_cols).astype(np.float32)
-np_l = np.float32(2.0)
+np_l = np.float32(np.random.uniform(0.1,3))
 
 print "    np_X=" + repr(np_X.shape)
 print "    np_beta=" + repr(np_beta.shape)
@@ -261,27 +262,32 @@ print "GPU (share x y l), time elapsed=" + \
 #Function = np.dot(np_X, np_Y)
 #    np_X=(5000, 5000)
 #    np_Y=(5000, 5000)
-#CPU, time elapsed=31.066647052764893 seconds
-#GPU, time elapsed=10.862936973571777 seconds
+#CPU, time elapsed=31.554172039031982 seconds
+#GPU, time elapsed=11.015516996383667 seconds
 #=======Matrix (#rows << #cols) dot Matrix (#cols >> #rows)=======
 #Function = np.dot(np_X, np_Y)
-#    np_X=(10, 5000)
-#    np_Y=(5000, 1)
-#CPU, time elapsed=0.00872492790222168 seconds
-#GPU, time elapsed=0.010727167129516602 seconds
+#    np_X=(500, 50000)
+#    np_Y=(50000, 1)
+#CPU, time elapsed=0.0166780948638916 seconds
+#GPU, time elapsed=0.07994985580444336 seconds
 #======================Matrix element power======================
 #Function = np_X ** coef
 #    np_X=(500, 500)
-#    coef=2.0
-#GPU, time elapsed=0.1413729190826416 seconds
-#CPU, time elapsed=0.015748977661132812 seconds
+#    coef=3.0
+#GPU (share x), time elapsed=0.10936784744262695 seconds
+#CPU, time elapsed=2.9329018592834473 seconds
 #===def f(self, beta, **kwargs): in RidgeRegression==============
 #Function = np.sum((np_y - np.dot(np_X, np_beta)) ** 2.0) + np_l * np.sum(np_beta ** 2.0)
 #    np_X=(500, 50000)
 #    np_beta=(50000, 1)
 #    np_y=(500, 1)
-#    np_l=1.0
-#CPU, time elapsed=0.9139950275421143 seconds
-#GPU, time elapsed=6.06090521812439 seconds
-#GPU (element-wise op) + CPU (dot and sum), time elapsed=0.9988830089569092 seconds
-#GPU (element-wise op, dot) + CPU (sum), time elapsed=6.023119926452637 seconds
+#    np_l=1.0599573
+#CPU, time elapsed=1.0230908393859863 seconds
+#GPU, time elapsed=6.218786001205444 seconds
+#GPU (element-wise op) + CPU (dot and sum), time elapsed=1.1481449604034424 seconds
+#GPU (element-wise op, dot) + CPU (sum), time elapsed=6.14638876914978 seconds
+#GPU (element-wise op, share y) + CPU (dot and sum), time elapsed=0.9908499717712402 seconds
+#GPU (element-wise op, dot, share x y) + CPU (sum), time elapsed=2.9899299144744873 seconds
+#GPU (share x y l), time elapsed=2.9789199829101562 seconds
+
+

@@ -37,6 +37,7 @@ start_time = time.time()
 # Train
 for i in range(training_steps):
     pred, err = train(D[0], D[1])
+
 print "Time elapsed=" + \
         repr(time.time() - start_time) + \
         " seconds"
