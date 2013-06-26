@@ -9,9 +9,14 @@ import time
 
 ###Define a function
 ###============class RidgeRegression in pylearn-structured
-print '''============What can be accelerated on the gpu=================='''
-print "http://deeplearning.net/software/theano/tutorial/\
-using_gpu.html#what-can-be-accelerated-on-the-gpu"
+print '''============Theano links=================='''
+print "Tutorial http://deeplearning.net/software/theano/tutorial/"\
+      "adding.html#adding-two-matrices"
+print "Shared Variables http://deeplearning.net/software/theano/tutorial"\
+      "/examples.html#using-shared-variables"
+print "http://deeplearning.net/software/theano/tutorial/"\
+      "using_gpu.html#what-can-be-accelerated-on-the-gpu"
+
 
 print '''====================Square Matrix dot product==================='''
 print "Function = np.dot(np_X, np_Y)"
@@ -28,7 +33,6 @@ np_X = np.random.rand(np_rows, np_cols).astype(np.float32)
 np_Y = np.random.rand(np_cols, np_rows).astype(np.float32)
 print "    np_X=" + repr(np_X.shape)
 print "    np_Y=" + repr(np_Y.shape)
-
 
 ###Using CPU
 start_time = time.time()
@@ -65,8 +69,6 @@ np_Y = np.random.rand(np_Y_rows, np_Y_cols).astype(np.float32)
 print "    np_X=" + repr(np_X.shape)
 print "    np_Y=" + repr(np_Y.shape)
 
-
-
 ###Using CPU
 start_time = time.time()
 for i in range(nb_it):
@@ -101,19 +103,19 @@ z = X ** c
 f = T.function([c], z)
 
 
-###Using GPU (share x)
-start_time = time.time()
-for i in range(n_it):
-    res_gpu = f(coef)
-print "GPU (share x), time elapsed=" + \
-        repr(time.time() - start_time) + \
-        " seconds"
-
 ###Using CPU
 start_time = time.time()
 for i in range(n_it):
     res_cpu = np_X ** coef
 print "CPU, time elapsed=" + \
+        repr(time.time() - start_time) + \
+        " seconds"
+
+###Using GPU (share x)
+start_time = time.time()
+for i in range(n_it):
+    res_gpu = f(coef)
+print "GPU (share x), time elapsed=" + \
         repr(time.time() - start_time) + \
         " seconds"
 
@@ -256,38 +258,38 @@ print "GPU (share x y l), time elapsed=" + \
 
 
 #Using gpu device 0: NVS 5200M
-#============What can be accelerated on the gpu==================
+#============Theano links==================
+#Tutorial http://deeplearning.net/software/theano/tutorial/adding.html#adding-two-matrices
+#Shared Variables http://deeplearning.net/software/theano/tutorial/examples.html#using-shared-variables
 #http://deeplearning.net/software/theano/tutorial/using_gpu.html#what-can-be-accelerated-on-the-gpu
 #====================Square Matrix dot product===================
 #Function = np.dot(np_X, np_Y)
 #    np_X=(5000, 5000)
 #    np_Y=(5000, 5000)
-#CPU, time elapsed=31.554172039031982 seconds
-#GPU, time elapsed=11.015516996383667 seconds
+#CPU, time elapsed=34.19604301452637 seconds
+#GPU, time elapsed=11.002487897872925 seconds
 #=======Matrix (#rows << #cols) dot Matrix (#cols >> #rows)=======
 #Function = np.dot(np_X, np_Y)
 #    np_X=(500, 50000)
 #    np_Y=(50000, 1)
-#CPU, time elapsed=0.0166780948638916 seconds
-#GPU, time elapsed=0.07994985580444336 seconds
+#CPU, time elapsed=0.01610708236694336 seconds
+#GPU, time elapsed=0.07469987869262695 seconds
 #======================Matrix element power======================
 #Function = np_X ** coef
 #    np_X=(500, 500)
 #    coef=3.0
-#GPU (share x), time elapsed=0.10936784744262695 seconds
-#CPU, time elapsed=2.9329018592834473 seconds
+#CPU, time elapsed=2.383635997772217 seconds
+#GPU (share x), time elapsed=0.11840295791625977 seconds
 #===def f(self, beta, **kwargs): in RidgeRegression==============
 #Function = np.sum((np_y - np.dot(np_X, np_beta)) ** 2.0) + np_l * np.sum(np_beta ** 2.0)
 #    np_X=(500, 50000)
 #    np_beta=(50000, 1)
 #    np_y=(500, 1)
-#    np_l=1.0599573
-#CPU, time elapsed=1.0230908393859863 seconds
-#GPU, time elapsed=6.218786001205444 seconds
-#GPU (element-wise op) + CPU (dot and sum), time elapsed=1.1481449604034424 seconds
-#GPU (element-wise op, dot) + CPU (sum), time elapsed=6.14638876914978 seconds
-#GPU (element-wise op, share y) + CPU (dot and sum), time elapsed=0.9908499717712402 seconds
-#GPU (element-wise op, dot, share x y) + CPU (sum), time elapsed=2.9899299144744873 seconds
-#GPU (share x y l), time elapsed=2.9789199829101562 seconds
-
-
+#    np_l=1.2523935
+#CPU, time elapsed=0.9669821262359619 seconds
+#GPU, time elapsed=6.189702987670898 seconds
+#GPU (element-wise op) + CPU (dot and sum), time elapsed=1.018022060394287 seconds
+#GPU (element-wise op, dot) + CPU (sum), time elapsed=6.414769887924194 seconds
+#GPU (element-wise op, share y) + CPU (dot and sum), time elapsed=1.185986042022705 seconds
+#GPU (element-wise op, dot, share x y) + CPU (sum), time elapsed=3.0201029777526855 seconds
+#GPU (share x y l), time elapsed=2.973874092102051 seconds
