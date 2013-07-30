@@ -32,3 +32,19 @@ def test_mem():
 
 test_mem()
 
+
+'''
+
+Manually recorded from $ top
+
+Single process:
+Memory Consumption (MB):
+610 -> 615 -> 616 -> 618 -> 620 -> 623 -> 622 -> 
+623 -> stable until finished  (over 5 minutes)
+
+Each process from Two processes:
+Memory Consumption (MB):
+486 -> 487 -> 491 -> 619 -> 622 -> 624 -> 628 -> 631 -> 757 ->
+760 -> 763 -> 765 -> 768 -> 769 -> stable until finished (over 5 minutes)
+
+'''

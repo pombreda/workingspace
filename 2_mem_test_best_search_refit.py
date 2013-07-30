@@ -20,9 +20,25 @@ def test_mem():
                 Methods(*[SVC(kernel="linear"), SVC(kernel="rbf")]),
                 n_folds=10)
     wf.run(X=X, y=y) # Top-down process: computing recognition rates, etc.
-    # local_engine = LocalEngine(wf, num_processes=2)
-    # wf = local_engine.run(X=X, y=y)
     print wf.reduce() # Bottom-up process: computing p-values, etc.
 
 test_mem()
+
+
+
+'''
+
+Manually recorded from $ top
+
+Single process:
+Memory Consumption (MB):
+343 -> 349 -> 472 -> 474 -> 478 -> 479 -> 610 -> 611 -> 613 -> 
+617 -> 620 -> 621 -> 623 -> stable (over 5 minutes) 
+-> 500 (re-compute tree for short time) -> finish
+
+
+No multi processes...
+
+'''
+
 
