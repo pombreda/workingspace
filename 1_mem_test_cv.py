@@ -9,6 +9,8 @@ from sklearn import datasets
 from sklearn.svm import SVC
 from epac import CV, Methods
 from epac import LocalEngine
+import numpy as np
+import pickle
 
 @profile
 def test_mem():
@@ -16,6 +18,11 @@ def test_mem():
                                         n_features=10000,
                                         n_informative=2,
                                         random_state=1)
+#    f = open("/home/jinpeng/x.log", "w")
+#    pickle.dump(X, f) # =>> 474 MB
+#    f.close()
+#    np.savez ("/home/jinpeng/np_x.log", dict(X=X)) # ===> 160 MB
+    
     cv_svm = CV(Methods(*[SVC(kernel="linear"), SVC(kernel="rbf")]),
                      n_folds=10)
     cv_svm.run(X=X, y=y) # Top-down process: computing recognition rates, etc.
