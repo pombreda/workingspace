@@ -71,11 +71,16 @@ class OB(BaseNode):
         print "hello ob"
         self.a = self.a + self.b
 
-dump_str = pickle.dumps(OB)
+
+dump_str = pickle.dumps(OA())
 f = open("/tmp/dump_str", "wb")
 f.write(dump_str)
 f.close()
 
+
+f = open("/tmp/dump_str", "wb")
+pickle.dump(OA(), f)
+f.close()
 
 #Open by another python 
 #======================
@@ -84,4 +89,9 @@ f = open("/tmp/dump_str", "rb")
 dump_str = f.read()
 f.close()
 obj = pickle.loads(dump_str)
+obj.test()
+
+f = open("/tmp/dump_str", "rb")
+obj = pickle.load(f)
+f.close()
 obj.test()
