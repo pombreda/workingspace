@@ -66,8 +66,6 @@ p = Pool(2)
 p.map(test_func2, ["/tmp/a.data", "/tmp/a.data"])
 
 from joblib import sharedarray
-from joblib import sharedarray
-
 
 
 
