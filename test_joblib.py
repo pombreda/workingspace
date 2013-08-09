@@ -10,6 +10,7 @@ from joblib import Parallel, delayed
 import os.path as path
 from tempfile import mkdtemp
 from joblib import Memory
+import joblib.pool.MemmapingPool
 import joblib
 import dill as pickle
 from multiprocessing import Pool
@@ -66,7 +67,7 @@ p = Pool(2)
 p.map(test_func2, ["/tmp/a.data", "/tmp/a.data"])
 
 from joblib import sharedarray
-
+import joblib.pool.MemmapingPool
 
 
 
@@ -76,7 +77,7 @@ Parallel(n_jobs=1)(delayed(test_func)(i) for i in [a, a, a])
 
 Parallel(n_jobs=2)(delayed(test_func)(i) for i in [a, a, a])
 
-
+### Can use with latest version on github
 from joblib import Parallel, delayed
 import numpy as np
 a = np.memmap('/tmp/memmaped', dtype=np.float32, mode='w+', shape=(3, 5))
