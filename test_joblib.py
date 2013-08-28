@@ -70,7 +70,6 @@ from joblib import sharedarray
 import joblib.pool.MemmapingPool
 
 
-
 test_func = mem.cache(test_func)
 
 Parallel(n_jobs=1)(delayed(test_func)(i) for i in [a, a, a])
