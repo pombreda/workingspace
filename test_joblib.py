@@ -10,7 +10,6 @@ from joblib import Parallel, delayed
 import os.path as path
 from tempfile import mkdtemp
 from joblib import Memory
-import joblib.pool.MemmapingPool
 import joblib
 import dill as pickle
 from multiprocessing import Pool
@@ -31,6 +30,7 @@ def test_func(X):
 
 a = np.vander(np.arange(3)).astype(np.float)
 a = convert2memmap(a)
+
 dict_data = {}
 dict_data['a'] = a
 dict_data['b'] = 5
@@ -38,11 +38,11 @@ dict_data['b'] = 5
 ## Fail to dump
 ## ==========================
 f = open("/tmp/a.data", "wb")
-pickle.dump(a, f)
+joblib.dump(dict_data, "/tmp/a.data")
 f.close()
 
 f = open("/tmp/a.data", "rb")
-a = pickle.load(f)
+dict_data = joblib.load("/tmp/a.data", mmap_mode="r+")
 f.close()
 
 ## Yes to dump

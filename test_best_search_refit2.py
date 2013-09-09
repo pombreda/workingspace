@@ -3,7 +3,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-
 import string
 import os.path
 import numpy as np
@@ -41,5 +40,6 @@ tree_mem = CV(pipeline, n_folds=n_folds,
 # Save Tree
 import tempfile
 store = StoreFs(dirpath=tempfile.mkdtemp(), clear=True)
-# tree_mem.save_tree(store=store)
+tree_mem.save_tree(store=store)
 tree_mem.run(X=X, y=y)
+tree_mem.reduce()
