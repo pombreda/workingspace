@@ -88,3 +88,19 @@ memory2 = Memory(cachedir=cachedir2, mmap_mode='r')
 square = memory2.cache(np.square)
 a = np.vander(np.arange(3)).astype(np.float)
 square(a)
+
+
+import joblib
+import numpy as np
+testarray = {}
+for i in xrange(5):
+    testarray[i] = convert2memmap(np.array(range(500*100)))
+filepath = "/tmp/test.joblib"
+res = joblib.dump(testarray, filepath)
+testarray = joblib.load(filepath, mmap_mode="r+")
+
+
+for key in testarray:
+    print type(testarray[key])
+
+testarray = joblib.load(filepath)
