@@ -95,3 +95,9 @@ f = open("/tmp/dump_str", "rb")
 obj = pickle.load(f)
 f.close()
 obj.test()
+
+
+#=========Test sessions
+import dill
+
+dill.dump_session()

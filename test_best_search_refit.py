@@ -39,6 +39,7 @@ if k_max != "auto":
                           add_n=True)
 else:
     k_values = range_log2(n_features, add_n=True)
+
 cls = Methods(*[Pipe(SelectKBest(k=k), SVC(C=C, kernel="linear"))
                            for C in C_values
                            for k in k_values])
