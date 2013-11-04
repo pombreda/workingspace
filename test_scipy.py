@@ -9,14 +9,15 @@ from multiprocessing import Pool
 import random
 import copy
 
-
 X = np.random.randn(10, 20)
 
 np.linalg.pinv(X)
 
 def pseudo_inverse(X):
      print "pt 1"
-     Y = np.linalg.pinv(X)
+     # Y = np.linalg.pinv(X)
+     Xt = np.transpose(X)
+     Y = np.dot(np.linalg.inv(np.dot(Xt, X)), Xt)
      print "pt 2"
      return Y
 
