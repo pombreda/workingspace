@@ -29,14 +29,14 @@ page2_word_vectors = {"autom": 1,
                       "complic": 1,
                       "natural": 1}
 
-page2_keyword_set = convert_keyword_set(page1_word_vectors)
+page2_keyword_set = convert_keyword_set(page2_word_vectors)
 page2_hash_id = hash(frozenset(page2_word_vectors.items()))
 
 
 def euclidean_distance(page1_word_vectors, page1_keyword_set,
                        page2_word_vectors, page2_keyword_set):
     # for exmaple, we compute the euclidean distance
-    inter = set.intersection(page1_keyword_set, page2_keyword_set)
+    inter = page1_keyword_set.intersection(page2_keyword_set)
     distance = 0
     for ikey in inter:
         tmp = abs(page1_word_vectors[ikey] - page2_word_vectors[ikey]) ** 2
