@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-# I don't which similarity or distance you need to compute.
+# I don't know which similarity or distance you need to compute.
 # Some of distance rely on global distributiton.
 # You may need several reduce processes to compute
 # Here is an example I proposed for your sparse vector
