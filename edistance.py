@@ -48,7 +48,7 @@ ret = euclidean_distance(page1_word_vectors, page1_keyword_set,
 
 dist_matrix = {}
 # All distance pairs are independent so that you can easily apply MapReduce framework
-dist_matrix[page1_hash_id][page2_hash_id] = ret
+dist_matrix[(page1_hash_id, page2_hash_id,)] = ret
 
 
 # I hope these code will help you
