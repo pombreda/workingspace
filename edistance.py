@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-# I don't which similarity or distance you need to compute.
+# I don't know which similarity or distance you need to compute.
 # Some of distance rely on global distributiton.
 # You may need several reduce processes to compute
 # Here is an example I proposed for your sparse vector
@@ -29,14 +29,14 @@ page2_word_vectors = {"autom": 1,
                       "complic": 1,
                       "natural": 1}
 
-page2_keyword_set = convert_keyword_set(page1_word_vectors)
+page2_keyword_set = convert_keyword_set(page2_word_vectors)
 page2_hash_id = hash(frozenset(page2_word_vectors.items()))
 
 
 def euclidean_distance(page1_word_vectors, page1_keyword_set,
                        page2_word_vectors, page2_keyword_set):
     # for exmaple, we compute the euclidean distance
-    inter = set.intersection(page1_keyword_set, page2_keyword_set)
+    inter = page1_keyword_set.intersection(page2_keyword_set)
     distance = 0
     for ikey in inter:
         tmp = abs(page1_word_vectors[ikey] - page2_word_vectors[ikey]) ** 2
@@ -48,7 +48,7 @@ ret = euclidean_distance(page1_word_vectors, page1_keyword_set,
 
 dist_matrix = {}
 # All distance pairs are independent so that you can easily apply MapReduce framework
-dist_matrix[page1_hash_id][page2_hash_id] = ret
+dist_matrix[(page1_hash_id, page2_hash_id,)] = ret
 
 
 # I hope these code will help you
