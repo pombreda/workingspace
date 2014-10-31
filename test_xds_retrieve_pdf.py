@@ -73,7 +73,7 @@ data2 = '''
     xmlns:wsa="http://www.w3.org/2005/08/addressing">
     <soapenv:Header xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
        <wsa:To soapenv:mustUnderstand="true" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"
-             xmlns:wsa="http://www.w3.org/2005/08/addressing">http://192.168.153.128:9080/tf6/services/xdsrepositoryb</wsa:To>
+             xmlns:wsa="http://www.w3.org/2005/08/addressing">http://red2:9080/tf6/services/xdsrepositoryb</wsa:To>
        <wsa:MessageID soapenv:mustUnderstand="true" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"
              xmlns:wsa="http://www.w3.org/2005/08/addressing">urn:uuid:EA153BD5B74B5B0CAD1401996224596</wsa:MessageID>
        <wsa:Action soapenv:mustUnderstand="true" xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"
@@ -108,12 +108,12 @@ except (ImportError, AssertionError):
 
 if __name__ == "__main__":
 #    http_headers_content_type="soap+xml; charset=UTF-8"
-#    headers = {"Host": "192.168.153.128:9080",
+#    headers = {"Host": "red2:9080",
 #               "User-Agent": "Axis2",
 #               "Content-Type": http_headers_content_type,
 #               "Content-Length": len(data)}
-    end_point = "http://192.168.153.128:9080/tf6/services/xdsrepositoryb"
-    headers = {"Host": "192.168.153.128:9080",
+    end_point = "http://red2:9080/tf6/services/xdsrepositoryb"
+    headers = {"Host": "red2:9080",
                "User-Agent": "Axis2",
                "Content-Type": http_headers_content_type}
     r = requests.post(end_point, headers=headers, data=data)

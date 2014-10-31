@@ -1,7 +1,7 @@
 <soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope"
     xmlns:wsa="http://www.w3.org/2005/08/addressing">
     <soapenv:Header>
-       <wsa:To>http://192.168.153.128:9080/tf6/services/xdsrepositoryb</wsa:To>
+       <wsa:To>http://%(ipaddress)s:9080/tf6/services/xdsrepositoryb</wsa:To>
        <wsa:MessageID>urn:uuid:EA153BD5B74B5B0CAD1402055526320</wsa:MessageID>
        <wsa:Action>urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b</wsa:Action>
     </soapenv:Header>
@@ -28,12 +28,23 @@
 					  <rim:Value>en-us</rim:Value>
 				   </rim:ValueList>
 				</rim:Slot>
+
+
+				<rim:Slot
+					  name="modality">
+				   <rim:ValueList>
+					  <rim:Value>200612230800</rim:Value>
+				   </rim:ValueList>
+				</rim:Slot>
+	
 				<rim:Slot
 					  name="serviceStartTime">
 				   <rim:ValueList>
 					  <rim:Value>200612230800</rim:Value>
 				   </rim:ValueList>
 				</rim:Slot>
+			
+
 				<rim:Slot
 					  name="serviceStopTime">
 				   <rim:ValueList>
@@ -263,7 +274,7 @@
 				</rim:Classification>
 				<rim:ExternalIdentifier
 					  identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427"
-					  value="9d372c19db66411^^^&amp;1.3.6.1.4.1.21367.2005.3.7&amp;ISO"
+					  value="%(PATIENT_ID)s"
 					  objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier"
 					  id="id_11"
 					  registryObject="urn:uuid:%(uuid_extrinsic_object)s">
@@ -374,7 +385,7 @@
 				</rim:ExternalIdentifier>
 				<rim:ExternalIdentifier
 					  identificationScheme="urn:uuid:6b5aea1a-874d-4603-a4bc-96a0a7b38446"
-					  value="9d372c19db66411^^^&amp;1.3.6.1.4.1.21367.2005.3.7&amp;ISO"
+					  value="%(PATIENT_ID)s"
 					  objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier"
 					  id="id_17"
 					  registryObject="urn:uuid:%(uuid_classification_object)s">

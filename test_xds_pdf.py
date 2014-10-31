@@ -17,7 +17,7 @@ cur_dir = os.path.dirname(os.path.realpath(__file__))
 pdf_path = os.path.join(cur_dir, "helloworld.pdf")
 soap_template = os.path.join(cur_dir, "example_soap.xml")
 
-PATIENT_ID = "9d372c19db66411^^^&1.3.6.1.4.1.21367.2005.3.7&ISO"
+PATIENT_ID = "1d36931bfdf4406^^^&1.3.6.1.4.1.21367.2005.3.7&ISO"
 
 MIME_BOUNDARY = 'MIMEBoundaryurn_uuid_0FE43E4D025F0BF3DC11582467646812'
 URN_UUID_REQUEST = '<0.urn:uuid:0FE43E4D025F0BF3DC11582467646813@apache.org>'
@@ -50,18 +50,21 @@ soap_args = dict(
     uuid_id_association=uuid_id_association,
     uuid_external_identifier_value=uuid_external_identifier_value,
     uuid_external_identifier_value2=uuid_external_identifier_value2,
-    pdf_encode=pdf_encode,
+#    pdf_encode=pdf_encode,
+    ipaddress="192.168.153.128",
+    PATIENT_ID=PATIENT_ID.replace("&", "&amp;"),
     )
 
-
 print "soap_args=", repr(soap_args)
+
+soap_args["pdf_encode"] = pdf_encode
 
 
 def build_mime_message(request, data, is_need_binary_part=False):
     '''
     Build the xml string with MIME attachments and the base64 encoded data string
     '''
-    request_part  = '\r\n'
+    request_part = '\r\n'
     request_part += '--%s\r\n' % MIME_BOUNDARY
     request_part += 'Content-Type: application/xop+xml; '\
                     'type="application/soap+xml; '\
@@ -69,7 +72,7 @@ def build_mime_message(request, data, is_need_binary_part=False):
     # request_part += 'Content-Transfer_Encoding: binary\r\n'
     request_part += 'Content-ID: %s\r\n\r\n' % URN_UUID_REQUEST
     request_part += '%s\r\n' % request
-    binary_part  = '\r\n'
+    binary_part = '\r\n'
     if is_need_binary_part:
         binary_part += '--%s\r\n' % MIME_BOUNDARY
         binary_part += 'Content-Type: text/plain\r\n'
@@ -87,6 +90,7 @@ data2 = data2 % soap_args
 # doc = libxml2.parseMemory(data2, len(data2))
 # ctxt = doc.xpathNewContext()
 # res = ctxt.xpathEval("//urn:ihe:iti:xds-b:2007:Document")
+
 
 def removeNonAscii(s):
     return "".join(i for i in s if ord(i) < 128)
@@ -109,15 +113,18 @@ except (ImportError, AssertionError):
 
 if __name__ == "__main__":
     # http_headers_content_type="soap+xml; charset=UTF-8"
-#    headers = {"Host": "192.168.153.128:9080",
+#    headers = {"Host": "192.168.153.129:9080",
 #               "User-Agent": "Axis2",
 #               "Content-Type": http_headers_content_type,
 #               "Content-Length": len(data)}
+
     end_point = "http://192.168.153.128:9080/tf6/services/xdsrepositoryb"
     headers = {"Host": "192.168.153.128:9080",
                "User-Agent": "Axis2",
                "Content-Type": http_headers_content_type}
     r = requests.post(end_point, headers=headers, data=data)
+    print "="*40, "reponse"
+    print r.text
 
 #    from pysimplesoap.client import SoapClient
 #    from pysimplesoap.simplexml import SimpleXMLElement
@@ -125,7 +132,7 @@ if __name__ == "__main__":
 #                    namespace='http://www.w3.org/2003/05/soap-envelope',
 #                    ns="wsa", soap_ns="soapenv")
 #    headers = SimpleXMLElement(raw_headers)
-#    
+
 #    from suds.client import Client
 #    wdsl_end_point = end_point + "?wsdl"
 #    client = Client(wdsl_end_point)
